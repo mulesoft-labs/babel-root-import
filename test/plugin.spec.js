@@ -5,7 +5,7 @@ import BabelRootImportPlugin from '../plugin';
 
 describe('Babel Root Import - Plugin', () => {
   it('transforms the relative path into an absolute path', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedImport = babel.transform("import SomeExample from '~/some/example.js';", {
       plugins: [BabelRootImportPlugin]
     });
@@ -49,7 +49,7 @@ describe('Babel Root Import - Plugin', () => {
       }]
     ]]
 
-    const targetRequire1 = slash(`/some1/custom/root/some/example.js`);
+    const targetRequire1 = slash('/some1/custom/root/some/example.js');
     const transformedImport1 = babel.transform("import SomeExample from '~/some/example.js';", {
       plugins
     });
@@ -57,7 +57,7 @@ describe('Babel Root Import - Plugin', () => {
       plugins
     });
 
-    const targetRequire2 = slash(`/some2/custom/root/some/example.js`);
+    const targetRequire2 = slash('/some2/custom/root/some/example.js');
     const transformedImport2 = babel.transform("import SomeExample from '@/some/example.js';", {
       plugins
     });
@@ -72,7 +72,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('uses the "@" as custom prefix to detect a root-import path', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedImport = babel.transform("import SomeExample from '@/some/example.js';", {
       plugins: [[
         BabelRootImportPlugin, {
@@ -93,7 +93,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('supports re-export syntax (export * from ... or export { named } from ...)', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedExportNamed = babel.transform("export * from '@/some/example.js';", {
       plugins: [[
         BabelRootImportPlugin, {
@@ -113,7 +113,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('uses the "/" as custom prefix to detect a root-import path', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedImport = babel.transform("import SomeExample from '/some/example.js';", {
       plugins: [[
         BabelRootImportPlugin, {
@@ -134,7 +134,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('uses the "–" as custom prefix to detect a root-import path', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedImport = babel.transform("import SomeExample from '-/some/example.js';", {
       plugins: [[
         BabelRootImportPlugin, {
@@ -155,7 +155,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('uses "@" as custom prefix to detect a root-import path and has a custom rootPathSuffix', () => {
-    const targetRequire = slash(`${process.cwd()}/some/example.js`);
+    const targetRequire = slash('/some/example.js');
     const transformedImport = babel.transform("import SomeExample from '@/example.js';", {
       plugins: [[
         BabelRootImportPlugin, {
@@ -178,14 +178,14 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('transforms a multipart require path with string at the beginning', () => {
-    const targetRequire1 = slash(`${process.cwd()}/some/' + 'example.js`);
+    const targetRequire1 = slash("'./some/' + 'example.js'");
     const transformedRequire1 = babel.transform("var SomeExample = require('~/some/' + 'example.js');", {
       plugins: [BabelRootImportPlugin]
     });
 
     expect(transformedRequire1.code).to.contain(targetRequire1);
 
-    const targetRequire2 = slash(`${process.cwd()}/some/' + 'other' + 'example.js`);
+    const targetRequire2 = slash("'./some/' + 'other' + 'example.js'");
     const transformedRequire2 = babel.transform("var SomeExample = require('~/some/' + 'other' + 'example.js');", {
       plugins: [BabelRootImportPlugin]
     });
@@ -194,7 +194,7 @@ describe('Babel Root Import - Plugin', () => {
   });
 
   it('does not transform a multipart require path with variable at the beginning', () => {
-    const targetRequire = slash(`${process.cwd()}/some' + '/example.js`);
+    const targetRequire = slash('/some' + '/example.js');
     const transformedRequire = babel.transform("var some = '~/';var SomeExample = require(some+ '/example.js');", {
       plugins: [BabelRootImportPlugin]
     });
